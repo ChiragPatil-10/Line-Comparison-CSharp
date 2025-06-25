@@ -1,71 +1,114 @@
 ﻿using System;
 
-namespace LineCamparisonProblem
+namespace LineComparisonProblem
 {
-    class LineComparison
+    // Class representing a Point with X and Y coordinates
+    public class Point
     {
-        public static void Main(string[] args)
+        public double X { get; }
+        public double Y { get; }
+
+        public Point(double x, double y)
         {
-            Console.WriteLine("Welcome to the Line Comparison Problem");
+            X = x;
+            Y = y;
+        }
+    }
 
-            Console.WriteLine("Enter coordinates for Line 1:");
+    // Class representing a Line, implementing IComparable for compareTo-like behavior
+    public class Line : IComparable<Line>
+    {
+        private Point start;
+        private Point end;
 
-            Console.Write("Enter x1: ");
-            double x1 = Convert.ToDouble(Console.ReadLine());
+        public Line(Point start, Point end)
+        {
+            this.start = start;
+            this.end = end;
+        }
 
-            Console.Write("Enter y1: ");
-            double y1 = Convert.ToDouble(Console.ReadLine());
-  
-            Console.Write("Enter x2: ");
-            double x2 = Convert.ToDouble(Console.ReadLine());
-
-            Console.Write("Enter y2: ");
-            double y2 = Convert.ToDouble(Console.ReadLine());
-
-            // Input are for the line 2
-
-            Console.WriteLine("Enter coordinates for Line 2:");
-          
-            Console.Write("Enter a1: ");
-            double a1 = Convert.ToDouble(Console.ReadLine());
-
-            Console.Write("Enter b1: ");
-            double b1 = Convert.ToDouble(Console.ReadLine());
-
-            Console.Write("Enter a2: ");
-            double a2 = Convert.ToDouble(Console.ReadLine());
-
-            Console.Write("Enter b2: ");
-            double b2 = Convert.ToDouble(Console.ReadLine());
-
-            double length1 = CalculateLineLength(x1, y1, x2, y2);
-            double length2 = CalculateLineLength(a1, b1, a2, b2);
-
-            Console.WriteLine($"\nLength of Line 1: {length1:F2}");
-            Console.WriteLine($"Length of Line 2: {length2:F2}");
-
-            //Here compareTo method is use to compare the two lines
-            int comparisonResult = length1.CompareTo(length2);
-
-            if (comparisonResult == 0)
+        // Calculate length of the line
+        public double Length
+        {
+            get
             {
-                Console.WriteLine("Result: Both lines are equal in length.");
-            }
-            else if (comparisonResult > 0)
-            {
-                Console.WriteLine("Result: Line 1 is longer than Line 2.");
-            }
-            else
-            {
-                Console.WriteLine("Result: Line 1 is shorter than Line 2.");
+                double deltaX = end.X - start.X;
+                double deltaY = end.Y - start.Y;
+                return Math.Sqrt(deltaX * deltaX + deltaY * deltaY);
             }
         }
-        // method to calculate the length of the line 
-        public static double CalculateLineLength(double x1, double y1, double x2, double y2)
+
+        // Override Equals to compare based on length
+        public override bool Equals(object obj)
         {
-            double deltaX = x2 - x1;
-            double deltaY = y2 - y1;
-            return Math.Sqrt(deltaX * deltaX + deltaY * deltaY);
+            if (obj is Line otherLine)
+            {
+                return this.Length.Equals(otherLine.Length);
+            }
+            return false;
+        }
+
+        // Override GetHashCode when overriding Equals (best practice)
+        public override int GetHashCode()
+        {
+            return Length.GetHashCode();
+        }
+
+        // CompareTo method to compare line lengths
+        public int CompareTo(Line other)
+        {
+            return this.Length.CompareTo(other.Length);
+        }
+    }
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Welcome to Line Comparison Problem - UC4 (OOP Version)");
+
+            // Input for Line 1
+            Console.WriteLine("Enter coordinates for Line 1:");
+            Point p1 = ReadPoint("Start");
+            Point p2 = ReadPoint("End");
+            Line line1 = new Line(p1, p2);
+
+            // Input for Line 2
+            Console.WriteLine("Enter coordinates for Line 2:");
+            Point p3 = ReadPoint("Start");
+            Point p4 = ReadPoint("End");
+            Line line2 = new Line(p3, p4);
+
+            // Display lengths
+            Console.WriteLine($"\nLength of Line 1: {line1.Length:F2}");
+            Console.WriteLine($"Length of Line 2: {line2.Length:F2}");
+
+            // Equality check
+            if (line1.Equals(line2))
+                Console.WriteLine("Result: Both lines are equal in length.");
+            else
+                Console.WriteLine("Result: Lines are not equal in length.");
+
+            // Comparison check
+            int result = line1.CompareTo(line2);
+            if (result == 0)
+                Console.WriteLine("Result: Lines are equal in length.");
+            else if (result > 0)
+                Console.WriteLine("Result: Line 1 is longer than Line 2.");
+            else
+                Console.WriteLine("Result: Line 1 is shorter than Line 2.");
+        }
+
+        // Helper method to read point input from user
+        static Point ReadPoint(string label)
+        {
+            Console.Write($"Enter {label} X: ");
+            double x = Convert.ToDouble(Console.ReadLine());
+
+            Console.Write($"Enter {label} Y: ");
+            double y = Convert.ToDouble(Console.ReadLine());
+
+            return new Point(x, y);
         }
     }
 }
