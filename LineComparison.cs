@@ -25,7 +25,7 @@ namespace LineCamparisonProblem
             // Input are for the line 2
 
             Console.WriteLine("Enter coordinates for Line 2:");
-
+          
             Console.Write("Enter a1: ");
             double a1 = Convert.ToDouble(Console.ReadLine());
 
@@ -38,21 +38,27 @@ namespace LineCamparisonProblem
             Console.Write("Enter b2: ");
             double b2 = Convert.ToDouble(Console.ReadLine());
 
-            double length1 = CalculateLineLength(x1,y1, x2, y2);
+            double length1 = CalculateLineLength(x1, y1, x2, y2);
             double length2 = CalculateLineLength(a1, b1, a2, b2);
 
             Console.WriteLine($"\nLength of Line 1: {length1:F2}");
             Console.WriteLine($"Length of Line 2: {length2:F2}");
 
-            if (length1.Equals(length2))
+            //Here compareTo method is use to compare the two lines
+            int comparisonResult = length1.CompareTo(length2);
+
+            if (comparisonResult == 0)
             {
                 Console.WriteLine("Result: Both lines are equal in length.");
             }
+            else if (comparisonResult > 0)
+            {
+                Console.WriteLine("Result: Line 1 is longer than Line 2.");
+            }
             else
             {
-                Console.WriteLine("Result: The lines are not equal in length.");
+                Console.WriteLine("Result: Line 1 is shorter than Line 2.");
             }
-
         }
         // method to calculate the length of the line 
         public static double CalculateLineLength(double x1, double y1, double x2, double y2)
