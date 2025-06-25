@@ -44,16 +44,23 @@ namespace LineCamparisonProblem
             Console.WriteLine($"\nLength of Line 1: {length1:F2}");
             Console.WriteLine($"Length of Line 2: {length2:F2}");
 
-            if (length1.Equals(length2))
+            //Here compareTo method is use to compare the two lines
+            int comparisonResult = length1.CompareTo(length2);
+
+            if (comparisonResult == 0)
             {
                 Console.WriteLine("Result: Both lines are equal in length.");
             }
+            else if (comparisonResult > 0)
+            {
+                Console.WriteLine("Result: Line 1 is longer than Line 2.");
+            }
             else
             {
-                Console.WriteLine("Result: The lines are not equal in length.");
+                Console.WriteLine("Result: Line 1 is shorter than Line 2.");
             }
-
         }
+
         // method to calculate the length of the line 
         public static double CalculateLineLength(double x1, double y1, double x2, double y2)
         {
