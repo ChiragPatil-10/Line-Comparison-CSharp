@@ -56,7 +56,7 @@ namespace LineComparisonProblem
         }
     }
 
-    class Program
+    class LineComparison
     {
         static void Main(string[] args)
         {
