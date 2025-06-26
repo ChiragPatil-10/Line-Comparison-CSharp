@@ -5,6 +5,7 @@ namespace LineComparisonProblem
     // Class representing a Point with X and Y coordinates
     public class Point
     {
+        
         public double X { get; }
         public double Y { get; }
 
@@ -48,12 +49,6 @@ namespace LineComparisonProblem
             return false;
         }
 
-        // Override GetHashCode when overriding Equals (best practice)
-        public override int GetHashCode()
-        {
-            return Length.GetHashCode();
-        }
-
         // CompareTo method to compare line lengths
         public int CompareTo(Line other)
         {
@@ -88,7 +83,7 @@ namespace LineComparisonProblem
                 Console.WriteLine("Result: Both lines are equal in length.");
             else
                 Console.WriteLine("Result: Lines are not equal in length.");
-
+           
             // Comparison check
             int result = line1.CompareTo(line2);
             if (result == 0)
